@@ -63,19 +63,17 @@ def group_by_centroid(restaurants, centroids):
 
 
 def find_centroid(cluster):
-    """Return the centroid of the locations of the restaurants in cluster."""
+    """Return the centroid of #the locations of the restaurants in cluster."""
     # BEGIN Question 5
     "*** REPLACE THIS LINE ***"
-    i = 0
     avg_centroid = []
-    for group in cluster:
-        latitude = []
-        longitude = []
-        for restaurant in group:
-            latitude.append(restaurant_location(restaurant)[0])
-            longitude.append(restaurant_location(restaurant)[1])
-        avg_centroid[i] = [mean(latitude), mean(longitude)]
-        i += 1
+    latitude = []
+    longitude = []
+    for restaurant in cluster:
+        location = restaurant_location(restaurant)
+        latitude.append(location[0])
+        longitude.append(location[1])
+    avg_centroid = [mean(latitude), mean(longitude)]
     return avg_centroid
     # END Question 5
 
@@ -87,15 +85,15 @@ def k_means(restaurants, k, max_updates=100):
     # Select initial centroids randomly by choosing k different restaurants
     centroids = [restaurant_location(r) for r in sample(restaurants, k)]
 
+    # BEGIN Question 6
     while old_centroids != centroids and n < max_updates:
         old_centroids = centroids
-        # BEGIN Question 6
         "*** REPLACE THIS LINE ***"
-        cluster = [group_by_centroid(restaurant_location(r), centroids) 
-                   for r in restaurants]
-        centroids = find_centroid(cluster)
-        # END Question 6
-        n += 1
+        clusters = group_by_centroid(restaurants, centroids) 
+        centroids = []
+        for cluster in clusters:
+            centroids.append(find_centroid(cluster))
+    # END Question 6
     return centroids
 
 
