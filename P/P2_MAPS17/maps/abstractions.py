@@ -64,8 +64,11 @@ def make_restaurant(name, location, categories, price, reviews):
     categories, price, and reviews for that restaurant."""
     # BEGIN Question 2
     "*** REPLACE THIS LINE ***"
+    rating = []
+    for review in reviews:
+        rating.append(review_rating(review))
     return {'name': name, 'location': location, 'categories': categories, 
-            'price': price, 'reviews':reviews}
+            'price': price, 'reviews': rating}
     # END Question 2
 
 def restaurant_name(restaurant):

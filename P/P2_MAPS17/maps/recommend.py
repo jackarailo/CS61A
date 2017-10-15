@@ -114,12 +114,16 @@ def find_predictor(user, restaurants, feature_fn):
     """
     reviews_by_user = {review_restaurant_name(review): review_rating(review)
                        for review in user_reviews(user).values()}
-
     xs = [feature_fn(r) for r in restaurants]
     ys = [reviews_by_user[restaurant_name(r)] for r in restaurants]
 
     # BEGIN Question 7
-    b, a, r_squared = 0, 0, 0  # REPLACE THIS LINE WITH YOUR SOLUTION
+    S_xx = sum([(x_i - mean(xs))**2 for x_i in xs])
+    S_yy = sum([(y_i - mean(ys))**2 for y_i in ys])
+    S_xy = sum([(xs[i] - mean(xs))*(ys[i] - mean(ys)) for i in range(len(xs))])
+    b = S_xy /S_xx
+    a = mean(ys) - b * mean(xs) 
+    r_squared = S_xy**2 / (S_xx * S_yy)  # REPLACE THIS LINE WITH YOUR SOLUTION
     # END Question 7
 
     def predictor(restaurant):
@@ -140,6 +144,14 @@ def best_predictor(user, restaurants, feature_fns):
     reviewed = user_reviewed_restaurants(user, restaurants)
     # BEGIN Question 8
     "*** REPLACE THIS LINE ***"
+    predictor = []
+    r_squared = []
+    for feature_fn in feature_fns:
+        temp_predictor, temp_r_squared = find_predictor(user, reviewed, feature_fn)
+        predictor.append(temp_predictor)
+        r_squared.append(temp_r_squared)
+    ind = max(list(range(len(r_squared))), key = lambda i: r_squared[i])
+    return predictor[ind]
     # END Question 8
 
 
@@ -156,6 +168,14 @@ def rate_all(user, restaurants, feature_fns):
     reviewed = user_reviewed_restaurants(user, restaurants)
     # BEGIN Question 9
     "*** REPLACE THIS LINE ***"
+    ratings_all = {}
+    for r in restaurants:
+        if r in reviewed:
+            rating = user_rating(user, restaurant_name(r))
+        else:
+            rating = predictor(r)
+        ratings_all[restaurant_name(r)] = rating
+    return ratings_all
     # END Question 9
 
 
@@ -168,6 +188,7 @@ def search(query, restaurants):
     """
     # BEGIN Question 10
     "*** REPLACE THIS LINE ***"
+    return [r for r in restaurants if query in restaurant_categories(r)]
     # END Question 10
 
 
