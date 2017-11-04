@@ -194,6 +194,8 @@ class ThrowerAnt(Ant):
     implemented = True
     damage = 1
     food_cost = 3
+    min_range = 0
+    max_range = 1000
 
     def nearest_bee(self, hive):
         """Return the nearest Bee in a Place that is not the HIVE, connected to
@@ -203,10 +205,17 @@ class ThrowerAnt(Ant):
         """
         # BEGIN Problem 5
         place = self.place
-        while (not place.bees and place.entrance is not hive):
-            place = place.entrance
-        return random_or_none(place.bees)
-
+        transition = 0
+        while True:
+            if (place.bees and 
+                    self.min_range <= transition <= self.max_range):
+                return random_or_none(place.bees)
+            elif place.entrance is not hive:
+                place = place.entrance
+                transition += 1
+            else:
+                return random_or_none(place.bees)
+            #print(place)
         # END Problem 5
 
     def throw_at(self, target):
@@ -274,7 +283,9 @@ class LongThrower(ThrowerAnt):
 
     name = 'Long'
     # BEGIN Problem 6
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    food_cost = 2
+    min_range = 5
     # END Problem 6
 
 
@@ -283,7 +294,9 @@ class ShortThrower(ThrowerAnt):
 
     name = 'Short'
     # BEGIN Problem 6
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    food_cost = 2
+    max_range = 3
     # END Problem 6
 
 
