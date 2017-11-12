@@ -551,6 +551,7 @@ class SlowThrower(ThrowerAnt):
     implemented = False   # Change to True to view in the GUI
     # END Problem EC
 
+
     def throw_at(self, target):
         if target:
             apply_effect(make_slow, target, 3)
