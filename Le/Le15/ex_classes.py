@@ -1,4 +1,4 @@
-class Account:
+ class Account:
     """An account has a balance and a holder
     
     >>> a = Account('John')

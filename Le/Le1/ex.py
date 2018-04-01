@@ -10,3 +10,4 @@ x = {w for w in words if len(w) > 1 and w[::-1] in words and w != w[::-1]}
 
 print(x)
 
+print("brakpoint before termination")
