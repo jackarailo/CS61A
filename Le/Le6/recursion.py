@@ -59,7 +59,21 @@ def luhn_sum_double(n):
 
 
 def luhn_check(n):
-    if luhn_sum(n) % 10 == 0:
-        return True
-    else:
-        return False
+    return (luhn_sum(n) % 10 == 0)
+
+def print_all(x):
+    print(x)
+    return print_all
+
+def print_sums(c):
+    print(x)
+    def next_sum(y):
+        return print_sums(x+y)
+    return next_sum
+
+
+def main():
+    return None
+
+if __name__ == "__main__":
+    main()
